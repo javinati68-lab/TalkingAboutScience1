@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Rocha’s English Class: Talking about Science</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            100: '#e0f2fe',
+                            500: '#3b82f6',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .shiny-input {
+            border: 2px solid #3b82f6;
+            box-shadow: 0 0 10px rgba(59,130,246,0.5);
+            border-radius: 0.5rem;
+            outline: none;
+            transition: box-shadow 0.2s ease-in-out;
+        }
+
+        .shiny-input:focus {
+            box-shadow: 0 0 15px rgba(59,130,246,0.9);
+        }
+
+        .correct-answer {
+            border-color: #10b981 !important;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5) !important;
+            background-color: rgba(16, 185, 129, 0.1);
+        }
+
+        .incorrect-answer {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5) !important;
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        .word-tile {
+            cursor: grab;
+            user-select: none;
+        }
+        .word-tile:active {
+            cursor: grabbing;
+        }
+        
+        .crossed-out {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body, html {
+                background-color: white !important;
+                color: black !important;
+                display: block;
+            }
+            .section {
+                display: block !important;
+                page-break-inside: avoid;
+                margin-bottom: 2rem;
+            }
+            #print-results-container {
+                display: block !important;
+            }
+            /* Start printing from top */
+            @page { margin: 1cm; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+
+    <header class="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md no-print">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-brand-500 dark:text-brand-100">Mr. Rocha’s English Class</h1>
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+                <i class="fas fa-moon text-xl" id="theme-icon"></i>
+            </button>
+        </div>
+        <div class="w-full bg-gray-200 dark:bg-gray-700 h-2">
+            <div id="progress-bar" class="bg-brand-500 h-2 transition-all duration-300" style="width: 10%;"></div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto w-full p-4 md:p-6 lg:p-8 flex flex-col gap-6">
+        
+        <section id="section-0" class="section bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition-all">
+            <h2 class="text-3xl font-bold mb-6 text-center text-brand-900 dark:text-brand-100">Talking about Science</h2>
+            
+            <div class="mb-6 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-700 flex justify-center items-center relative min-h-[200px]">
+                <img src="Image1.png" alt="Science Introduction" class="w-full h-auto object-cover max-h-[400px]" onerror="this.onerror=null; this.src='https://placehold.co/800x400/1e3a8a/ffffff?text=Image1+(Science+Introduction)';">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div class="flex flex-col gap-2">
+                    <label for="student-name" class="font-semibold text-lg">Student Name:</label>
+                    <input type="text" id="student-name" class="shiny-input p-3 text-lg bg-white dark:bg-gray-900 dark:text-white" placeholder="Type your name here...">
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label for="student-date" class="font-semibold text-lg">Date:</label>
+                    <input type="date" id="student-date" class="shiny-input p-3 text-lg bg-white dark:bg-gray-900 dark:text-white">
+                </div>
+            </div>
+        </section>
+
+        <section id="section-1" class="section hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition-all">
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2">Activity 1: Watch & Learn</h2>
+            <p class="mb-4 text-lg">Watch the video. Take notes and tell Mr. Rocha what the video was about.</p>
+            
+            <div class="mb-6 rounded-xl overflow-hidden bg-black flex justify-center items-center w-full aspect-video">
+                <video src="Video1.mp4" controls class="w-full h-full object-contain">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <label for="act1-notes" class="font-semibold block mb-2">Your Notes & Summary:</label>
+            <textarea id="act1-notes" rows="5" class="shiny-input w-full p-4 bg-white dark:bg-gray-900 dark:text-white mb-4" placeholder="Type your notes here..."></textarea>
+            
+            <button onclick="checkActivity1()" id="btn-check-1" class="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition transform hover:scale-105">
+                <i class="fas fa-check-circle mr-2"></i> Check Answer
+            </button>
+        </section>
+
+        <section id="section-2" class="section hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition-all">
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2">Activity 2: Science Conversation</h2>
+            <p class="mb-4 text-lg">Complete the conversation between Student A and Student B talking about atoms and the parts of the atom. Select the correct response for Student B.</p>
+            
+            <div id="act2-container" class="space-y-4 mb-6 bg-gray-50 dark:bg-gray-750 p-4 rounded-lg">
+                <!-- Dynamically generated in JS -->
+            </div>
+
+            <button onclick="checkActivity2()" id="btn-check-2" class="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition transform hover:scale-105">
+                <i class="fas fa-check-circle mr-2"></i> Check Answers
+            </button>
+            <div id="act2-feedback" class="mt-4 text-lg font-bold hidden"></div>
+        </section>
+
+        <section id="section-3" class="section hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition-all">
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2">Activity 3: Form the Sentences</h2>
+            <p class="mb-4 text-lg">Drag and drop the words to form correct complex sentences about atoms and parts of the atom.</p>
+            
+            <div id="act3-container" class="space-y-8 mb-6">
+                <!-- Dynamically generated in JS -->
+            </div>
+
+            <button onclick="checkActivity3()" id="btn-check-3" class="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition transform hover:scale-105">
+                <i class="fas fa-check-circle mr-2"></i> Check Answers
+            </button>
+            <div id="act3-feedback" class="mt-4 text-lg font-bold hidden"></div>
+        </section>
+
+        <section id="section-4" class="section hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition-all">
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2">Activity 4: Listen & Comprehend</h2>
+            <p class="mb-4 text-lg">Listen to the audio. Complete the text by filling in the missing words (every 12th word is missing). Then answer the multiple-choice questions.</p>
+            
+            <div class="mb-6 bg-brand-100 dark:bg-brand-900 p-4 rounded-xl flex items-center justify-center shadow-inner">
+                <audio src="Audio1.mp3" controls class="w-full max-w-md">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div id="act4-cloze-container" class="text-lg leading-loose mb-8 p-6 bg-gray-50 dark:bg-gray-750 rounded-xl text-justify border dark:border-gray-600">
+                <!-- Dynamically generated in JS -->
+            </div>
+
+            <h3 class="text-xl font-bold mb-4">Comprehension Questions</h3>
+            <div id="act4-mcq-container" class="space-y-6 mb-6">
+                <!-- Dynamically generated in JS -->
+            </div>
+
+            <button onclick="checkActivity4()" id="btn-check-4" class="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition transform hover:scale-105">
+                <i class="fas fa-check-circle mr-2"></i> Check Answers
+            </button>
+            <div id="act4-feedback" class="mt-4 text-lg font-bold hidden"></div>
+        </section>
+
+        <section id="section-5" class="section hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition-all">
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2">Activity 5: Vocabulary Matching I</h2>
+            <p class="mb-4 text-lg">Match the vocabulary words with their correct definitions. Look at the symbols and examples for help!</p>
+            
+            <div class="mb-6 bg-brand-100 dark:bg-brand-900 p-4 rounded-xl flex items-center justify-center shadow-inner">
+                <audio src="Audio2.mp3" controls class="w-full max-w-md">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div id="act5-container" class="grid grid-cols-1 gap-4 mb-6">
+                <!-- Dynamically generated in JS -->
+            </div>
+
+            <button onclick="checkActivity5()" id="btn-check-5" class="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition transform hover:scale-105">
+                <i class="fas fa-check-circle mr-2"></i> Check Answers
+            </button>
+            <div id="act5-feedback" class="mt-4 text-lg font-bold hidden"></div>
+        </section>
+
+        <section id="section-6" class="section hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition-all">
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2">Activity 6: Vocabulary Matching II</h2>
+            <p class="mb-4 text-lg">Match the advanced vocabulary words with their correct definitions.</p>
+            
+            <div class="mb-6 bg-brand-100 dark:bg-brand-900 p-4 rounded-xl flex items-center justify-center shadow-inner">
+                <audio src="Audio3.mp3" controls class="w-full max-w-md">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div id="act6-container" class="grid grid-cols-1 gap-4 mb-6">
+                <!-- Dynamically generated in JS -->
+            </div>
+
+            <button onclick="checkActivity6()" id="btn-check-6" class="w-full md:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition transform hover:scale-105">
+                <i class="fas fa-check-circle mr-2"></i> Check Answers
+            </button>
+            <div id="act6-feedback" class="mt-4 text-lg font-bold hidden"></div>
+        </section>
+
+        <section id="section-7" class="section hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition-all flex flex-col items-center">
+            <h2 class="text-2xl font-bold mb-4 border-b pb-2 w-full text-left">Activity 7: Visual Summary</h2>
+            <p class="mb-6 text-lg w-full text-left">Review the visual representation of atoms and matter below. You have reached the end of the activities!</p>
+            
+            <div class="w-full rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-700 flex justify-center items-center min-h-[400px]">
+                <img src="Image2.png" alt="Science Summary" class="w-full h-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/1000x600/3b82f6/ffffff?text=Image2+(Science+Summary)';">
+            </div>
+        </section>
+
+        <section id="section-8" class="section hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transition-all print-only">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl font-bold text-brand-900 dark:text-brand-100 mb-2">Your Results</h2>
+                <p class="text-xl" id="results-student-info"></p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-gray-50 dark:bg-gray-750 p-6 rounded-xl shadow-inner flex flex-col items-center justify-center">
+                    <h3 class="text-2xl font-bold mb-4">Overall Score</h3>
+                    <div class="w-full max-w-[300px] aspect-square relative">
+                        <canvas id="pieChart"></canvas>
+                        <div id="overall-percentage" class="absolute inset-0 flex items-center justify-center text-4xl font-bold"></div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-750 p-6 rounded-xl shadow-inner">
+                    <h3 class="text-2xl font-bold mb-4 text-center">Score by Activity</h3>
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-brand-50 dark:bg-gray-750 p-6 rounded-xl shadow-inner mb-8">
+                <h3 class="text-2xl font-bold mb-4 text-brand-900 dark:text-brand-100"><i class="fas fa-star text-yellow-400 mr-2"></i>Feedback & 8 Recommendations</h3>
+                <ul id="recommendations-list" class="space-y-3 text-lg list-disc pl-6">
+                    <!-- Dynamically generated in JS -->
+                </ul>
+            </div>
+            
+            <div class="text-center no-print mt-6">
+                <button onclick="window.print()" class="bg-brand-500 hover:bg-brand-600 text-white font-bold py-4 px-8 rounded-full shadow-lg transition transform hover:scale-105 text-xl">
+                    <i class="fas fa-print mr-2"></i> Print Results
+                </button>
+            </div>
+        </section>
+
+        <footer class="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 flex flex-wrap justify-between gap-4 no-print">
+            <button id="btn-prev" onclick="navigate(-1)" class="hidden bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg shadow transition">
+                <i class="fas fa-arrow-left mr-2"></i> Previous
+            </button>
+            <button id="btn-next" onclick="navigate(1)" class="bg-brand-500 hover:bg-brand-600 text-white font-bold py-3 px-6 rounded-lg shadow transition ml-auto">
+                Next <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+            <button id="btn-submit" onclick="submitWorksheet()" class="hidden bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition transform hover:scale-105 ml-auto">
+                <i class="fas fa-flag-checkered mr-2"></i> Check Results
+            </button>
+        </footer>
+
+    </main>
+
+    <script>
+        let currentStep = 0;
+        const totalSteps = 8; // 0:Intro, 1-7:Activities, 8:Results
+        
+        // Data for Activities
+        const act2Data = [
+            { a: "Hello! Did you read the book about atoms?", b: "Yes, I did! It was very interesting." },
+            { a: "What is an atom?", b: "It is a very small part of everything." },
+            { a: "What is in the center of the atom?", b: "The center is called the nucleus." },
+            { a: "Are there protons inside the nucleus?", b: "Yes, there are protons and neutrons." },
+            { a: "Do neutrons have a positive charge?", b: "No, they do not have a charge." },
+            { a: "What about the electrons?", b: "They are on the outside." },
+            { a: "Are electrons heavy or light?", b: "They are very light and small." },
+            { a: "Science is very fun to learn!", b: "I agree! I want to learn more." }
+        ];
+
+        const act3Sentences = [
+            "An atom is the basic building block of all matter.",
+            "The nucleus is located in the center of the atom.",
+            "Protons carry a positive electrical charge inside the nucleus.",
+            "Neutrons have no charge and are completely neutral.",
+            "Electrons are very small particles with a negative charge.",
+            "The negative electrons move rapidly around the positive nucleus.",
+            "The number of protons determines the type of element.",
+            "Oxygen is an element that has exactly eight protons.",
+            "Atoms are incredibly tiny and cannot be seen easily.",
+            "Everything in the universe is made of these small particles.",
+            "Solid objects are actually made of mostly empty space.",
+            "An amazing internal structure exists inside every single atom."
+        ];
+
+        const act4ClozeText = "Before I started ninth-grade science, I thought the universe was made of millions of completely different things. But our teacher showed us that absolutely everything—the wood in my desk, the water in my bottle, and even my own body—is made from the exact same tiny building blocks: atoms. It is honestly mind-blowing. An atom is so incredibly small that you cannot even see it with a normal microscope. Even though it is tiny, an atom has an amazing internal structure, almost like a miniature solar system. In the center is the nucleus, which is the heavy, solid core of the atom. Inside the nucleus, there are two types of particles. First, there are protons, which carry a positive electrical charge. Second, there are neutrons, which have no charge at all—they are completely neutral. But that is not the whole picture. Buzzing around the outside of the nucleus are the electrons. These particles are incredibly small and light, and they carry a negative charge. They move so fast that they create a blurry cloud around the center. Since opposites attract, the negative electrons stay pulled toward the positive protons. What I find most fascinating is that the number of protons actually decides what the atom is. For example, if an atom has exactly eight protons, it is oxygen. If it has seventy-nine, it is gold! Learning about atoms makes me look at the world differently. It is crazy to realize that solid objects are mostly empty space.";
+
+        const act4MCQ = [
+            { q: "1. How does the student describe the overall structure of an atom?", options: ["As a complicated microscope", "As a solid block of wood", "As a drop of water", "As a miniature solar system"], ans: 3 },
+            { q: "2. What type of electrical charge does a proton carry?", options: ["A changing charge", "A positive charge", "A negative charge", "No charge at all"], ans: 1 },
+            { q: "3. According to the text, where are neutrons located and what is their charge?", options: ["Outside the nucleus, with a negative charge", "Inside the nucleus, with a positive charge", "Inside the nucleus, with no charge", "Outside the nucleus, with no charge"], ans: 2 },
+            { q: "4. Why do the negative electrons stay close to the center of the atom instead of floating away?", options: ["They are attracted to the positive protons.", "They are pushed by other electrons.", "They are too heavy to move away.", "They are trapped by the heavy neutrons."], ans: 0 },
+            { q: "5. Based on the passage, what specific part of the atom determines whether it is oxygen or gold?", options: ["The speed of the electrons", "The number of neutrons", "The size of the empty space", "The number of protons"], ans: 3 },
+            { q: "6. What surprising fact does the student realize at the end of the text?", options: ["Solid objects are made up of mostly empty space.", "The universe is made of millions of completely different building blocks.", "Electrons are much heavier than protons and neutrons.", "You can easily see atoms with a normal microscope."], ans: 0 }
+        ];
+
+        const act5Vocab = [
+            { word: "Atom", symbol: "⚛️ (Ex: Carbon atom)", def: "The basic, incredibly small building block of all matter in the universe." },
+            { word: "Proton", symbol: "➕ (Ex: Inside hydrogen nucleus)", def: "A subatomic particle with a positive electrical charge, located in the center of the atom." },
+            { word: "Neutron", symbol: "⚪ (Ex: Neutral particle)", def: "A subatomic particle with no electrical charge (neutral), also located in the center of the atom." },
+            { word: "Electron", symbol: "➖ (Ex: Moving around nucleus)", def: "A very light subatomic particle with a negative charge that rapidly orbits the center of the atom." },
+            { word: "Nucleus", symbol: "🔴 (Ex: Center of an atom)", def: "The dense, heavy core at the center of an atom, made up of protons and neutrons." },
+            { word: "Electron Cloud", symbol: "☁️ (Ex: Blurry area outside)", def: "The empty space or region outside the nucleus where electrons are most likely to be found moving." },
+            { word: "Element", symbol: "🥇 (Ex: Pure gold)", def: "A pure substance made entirely of one specific type of atom (like pure oxygen or pure gold)." },
+            { word: "Atomic Number", symbol: "🔢 (Ex: Oxygen is 8)", def: "The exact number of protons in an atom's nucleus, which identifies what element the atom is." }
+        ];
+
+        const act6Vocab = [
+            { word: "Atomic Mass", symbol: "⚖️ (Ex: Total weight)", def: "The combined total number of protons and neutrons inside the nucleus." },
+            { word: "Valence Electron", symbol: "🔗 (Ex: Used in bonding)", def: "An electron located in the outermost shell or ring of the atom, which is used to bond with other atoms." },
+            { word: "Isotope", symbol: "⚖️🔄 (Ex: Carbon-12 vs 14)", def: "Atoms of the exact same element that have a different number of neutrons, making them heavier or lighter." },
+            { word: "Ion", symbol: "⚡ (Ex: Na+)", def: "An atom that has an electrical charge because it has gained or lost some of its electrons." },
+            { word: "Molecule", symbol: "💧 (Ex: O2)", def: "Two or more atoms that are chemically joined or bonded together." },
+            { word: "Compound", symbol: "🚰 (Ex: H2O water)", def: "A specific type of molecule made of at least two different elements bonded together." },
+            { word: "Matter", symbol: "🪨 (Ex: Desk, water, air)", def: "Anything that has mass and takes up physical space." },
+            { word: "Periodic Table", symbol: "📊 (Ex: Chemistry chart)", def: "A scientific chart that organizes all known elements according to their atomic numbers and chemical properties." }
+        ];
+
+        let scores = {
+            act1: { score: 0, max: 1, done: false },
+            act2: { score: 0, max: 8, done: false },
+            act3: { score: 0, max: 12, done: false },
+            act4: { score: 0, max: 27, done: false }, // 21 cloze + 6 MCQ
+            act5: { score: 0, max: 8, done: false },
+            act6: { score: 0, max: 8, done: false },
+            act7: { score: 1, max: 1, done: true } // Just viewing image
+        };
+
+        window.onload = () => {
+            initDarkTheme();
+            renderAct2();
+            renderAct3();
+            renderAct4();
+            renderAct56(act5Vocab, 'act5-container', 'act5-select');
+            renderAct66(act6Vocab, 'act6-container', 'act6-select');
+            updateNav();
+        };
+
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        let act2Dropdowns = [];
+        function renderAct2() {
+            const container = document.getElementById('act2-container');
+            const shuffledB = shuffle([...act2Data].map(d => d.b));
+            
+            act2Data.forEach((pair, index) => {
+                const row = document.createElement('div');
+                row.className = "flex flex-col gap-2 p-3 bg-white dark:bg-gray-800 rounded shadow";
+                
+                const studentA = document.createElement('div');
+                studentA.className = "text-blue-600 dark:text-blue-400 font-bold";
+                studentA.innerHTML = `Student A: <span class="font-normal text-gray-800 dark:text-gray-200">${pair.a}</span>`;
+                
+                const studentB = document.createElement('div');
+                studentB.className = "flex items-center gap-2 text-green-600 dark:text-green-400 font-bold";
+                studentB.innerHTML = `Student B: `;
+                
+                const select = document.createElement('select');
+                select.className = "shiny-input p-2 flex-grow bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-normal text-sm md:text-base act2-select";
+                select.id = `act2-q${index}`;
+                select.innerHTML = `<option value="">-- Select Response --</option>`;
+                
+                shuffledB.forEach(bLine => {
+                    const option = document.createElement('option');
+                    option.value = bLine;
+                    option.textContent = bLine;
+                    select.appendChild(option);
+                });
+
+                select.addEventListener('change', updateAct2Dropdowns);
+                act2Dropdowns.push(select);
+                
+                studentB.appendChild(select);
+                row.appendChild(studentA);
+                row.appendChild(studentB);
+                container.appendChild(row);
+            });
+        }
+
+        function updateAct2Dropdowns() {
+            const selectedValues = act2Dropdowns.map(s => s.value).filter(v => v !== "");
+            
+            act2Dropdowns.forEach(select => {
+                Array.from(select.options).forEach(option => {
+                    if (option.value === "") return;
+                    if (selectedValues.includes(option.value) && select.value !== option.value) {
+                        option.disabled = true;
+                        option.classList.add('crossed-out');
+                    } else {
+                        option.disabled = false;
+                        option.classList.remove('crossed-out');
+                    }
+                });
+            });
+        }
+
+        function renderAct3() {
+            const container = document.getElementById('act3-container');
+            
+            act3Sentences.forEach((sentence, index) => {
+                const words = shuffle(sentence.replace('.', '').split(' '));
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = "p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm border dark:border-gray-600";
+                
+                const header = document.createElement('div');
+                header.className = "flex justify-between items-center mb-3";
+                header.innerHTML = `<span class="font-bold">Sentence ${index + 1}</span>
+                                    <button onclick="playTTS('${sentence.replace(/'/g, "\\'")}')" class="text-blue-500 hover:text-blue-700 dark:text-blue-400 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition" title="Listen">
+                                        <i class="fas fa-volume-up text-xl"></i>
+                                    </button>`;
+                
+                const ul = document.createElement('ul');
+                ul.id = `act3-sort-${index}`;
+                ul.className = "flex flex-wrap gap-2 min-h-[50px] p-2 bg-white dark:bg-gray-800 rounded shiny-input items-center act3-ul";
+                ul.dataset.original = sentence;
+                
+                words.forEach(word => {
+                    const li = document.createElement('li');
+                    li.className = "word-tile bg-brand-500 text-white px-3 py-1.5 rounded shadow cursor-grab active:cursor-grabbing text-lg";
+                    li.textContent = word;
+                    ul.appendChild(li);
+                });
+                
+                wrapper.appendChild(header);
+                wrapper.appendChild(ul);
+                container.appendChild(wrapper);
+                
+                Sortable.create(ul, { animation: 150, ghostClass: 'bg-brand-900' });
+            });
+        }
+
+        function playTTS(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        let clozeAnswers = [];
+        function renderAct4() {
+            // Cloze
+            const clozeContainer = document.getElementById('act4-cloze-container');
+            const words = act4ClozeText.split(' ');
+            let html = "";
+            let counter = 1;
+            
+            words.forEach((word, index) => {
+                if ((index + 1) % 12 === 0) {
+                    // Extract punctuation to leave it outside the input
+                    const cleanWord = word.replace(/[^a-zA-Z0-9-]/g, '');
+                    const punctuation = word.replace(/[a-zA-Z0-9-]/g, '');
+                    
+                    clozeAnswers.push(cleanWord.toLowerCase());
+                    html += `<input type="text" id="cloze-${clozeAnswers.length - 1}" class="shiny-input inline-block w-24 mx-1 text-center bg-white dark:bg-gray-900 dark:text-white px-1 py-0.5 text-base border-b-2" data-answer="${cleanWord.toLowerCase()}">${punctuation} `;
+                } else {
+                    html += word + " ";
+                }
+            });
+            clozeContainer.innerHTML = html;
+
+            // MCQ
+            const mcqContainer = document.getElementById('act4-mcq-container');
+            act4MCQ.forEach((item, qIndex) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = "bg-white dark:bg-gray-800 p-4 rounded shadow border dark:border-gray-600";
+                
+                const title = document.createElement('p');
+                title.className = "font-bold mb-3 text-lg";
+                title.textContent = item.q;
+                qDiv.appendChild(title);
+                
+                const grid = document.createElement('div');
+                grid.className = "grid grid-cols-1 md:grid-cols-2 gap-3";
+                
+                item.options.forEach((opt, oIndex) => {
+                    const label = document.createElement('label');
+                    label.className = "flex items-center gap-3 p-3 border dark:border-gray-600 rounded cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition";
+                    label.innerHTML = `<input type="radio" name="mcq-${qIndex}" value="${oIndex}" class="w-5 h-5 text-brand-600"> <span class="text-base">${String.fromCharCode(65 + oIndex)}) ${opt}</span>`;
+                    grid.appendChild(label);
+                });
+                
+                qDiv.appendChild(grid);
+                mcqContainer.appendChild(qDiv);
+            });
+        }
+
+        function renderAct56(vocabData, containerId, selectClass) {
+            const container = document.getElementById(containerId);
+            const shuffledDefs = shuffle([...vocabData].map(v => v.def));
+            
+            vocabData.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = "flex flex-col md:flex-row md:items-center gap-4 p-4 bg-white dark:bg-gray-700 rounded-lg shadow";
+                
+                const wordBox = document.createElement('div');
+                wordBox.className = "md:w-1/3 font-bold text-lg text-brand-900 dark:text-brand-100 flex flex-col";
+                wordBox.innerHTML = `<span>${item.word}</span><span class="text-sm font-normal text-gray-600 dark:text-gray-300">${item.symbol}</span>`;
+                
+                const select = document.createElement('select');
+                select.className = `shiny-input p-3 flex-grow bg-white dark:bg-gray-900 dark:text-white ${selectClass}`;
+                select.dataset.answer = item.def;
+                select.innerHTML = `<option value="">-- Select Definition --</option>`;
+                
+                shuffledDefs.forEach(def => {
+                    const option = document.createElement('option');
+                    option.value = def;
+                    option.textContent = def;
+                    select.appendChild(option);
+                });
+                
+                row.appendChild(wordBox);
+                row.appendChild(select);
+                container.appendChild(row);
+            });
+        }
+        function renderAct66(vocabData, containerId, selectClass) {
+            renderAct56(vocabData, containerId, selectClass);
+        }
+
+        function lockInputs(sectionId) {
+            const section = document.getElementById(sectionId);
+            const inputs = section.querySelectorAll('input, select, textarea');
+            inputs.forEach(inp => inp.disabled = true);
+            const btn = section.querySelector('button[id^="btn-check"]');
+            if(btn) btn.style.display = 'none';
+        }
+
+        function checkActivity1() {
+            const text = document.getElementById('act1-notes').value.trim();
+            scores.act1.score = text.length > 10 ? 1 : 0;
+            scores.act1.done = true;
+            lockInputs('section-1');
+            const fb = document.createElement('div');
+            fb.className = "mt-4 text-green-600 font-bold text-lg";
+            fb.innerHTML = "<i class='fas fa-check'></i> Notes saved!";
+            document.getElementById('section-1').appendChild(fb);
+        }
+
+        function checkActivity2() {
+            let correct = 0;
+            act2Dropdowns.forEach((select, i) => {
+                if (select.value === act2Data[i].b) {
+                    correct++;
+                    select.classList.add('correct-answer');
+                } else {
+                    select.classList.add('incorrect-answer');
+                    // Show correct answer below
+                    const p = document.createElement('p');
+                    p.className = "text-sm text-green-600 mt-1";
+                    p.innerHTML = `Correct: ${act2Data[i].b}`;
+                    select.parentNode.appendChild(p);
+                }
+            });
+            scores.act2.score = correct;
+            scores.act2.done = true;
+            lockInputs('section-2');
+            const fb = document.getElementById('act2-feedback');
+            fb.textContent = `You got ${correct} out of 8 correct!`;
+            fb.classList.remove('hidden');
+            fb.classList.add(correct > 5 ? 'text-green-600' : 'text-orange-500');
+        }
+
+        function checkActivity3() {
+            let correct = 0;
+            const lists = document.querySelectorAll('.act3-ul');
+            lists.forEach(ul => {
+                const original = ul.dataset.original.replace('.', '');
+                const currentArr = Array.from(ul.children).map(li => li.textContent);
+                const currentStr = currentArr.join(' ');
+                
+                if (currentStr === original) {
+                    correct++;
+                    ul.classList.add('correct-answer');
+                } else {
+                    ul.classList.add('incorrect-answer');
+                    const p = document.createElement('p');
+                    p.className = "text-sm text-green-600 mt-2 font-semibold";
+                    p.innerHTML = `Correct order: ${original}.`;
+                    ul.parentNode.appendChild(p);
+                }
+                // Disable sorting
+                Sortable.get(ul).option("disabled", true);
+                Array.from(ul.children).forEach(li => li.classList.remove('cursor-grab', 'active:cursor-grabbing'));
+            });
+            scores.act3.score = correct;
+            scores.act3.done = true;
+            lockInputs('section-3');
+            const fb = document.getElementById('act3-feedback');
+            fb.textContent = `You formed ${correct} out of 12 sentences correctly!`;
+            fb.classList.remove('hidden');
+            fb.classList.add(correct > 8 ? 'text-green-600' : 'text-orange-500');
+        }
+
+        function checkActivity4() {
+            let correct = 0;
+            // Check Cloze
+            for (let i = 0; i < clozeAnswers.length; i++) {
+                const input = document.getElementById(`cloze-${i}`);
+                const val = input.value.trim().toLowerCase();
+                if (val === clozeAnswers[i]) {
+                    correct++;
+                    input.classList.add('correct-answer');
+                } else {
+                    input.classList.add('incorrect-answer');
+                    input.value = `${val} (Ans: ${clozeAnswers[i]})`;
+                }
+            }
+            // Check MCQ
+            act4MCQ.forEach((item, i) => {
+                const selected = document.querySelector(`input[name="mcq-${i}"]:checked`);
+                const qDiv = document.querySelector(`input[name="mcq-${i}"]`).closest('div').parentElement;
+                
+                if (selected && parseInt(selected.value) === item.ans) {
+                    correct++;
+                    qDiv.classList.add('correct-answer');
+                } else {
+                    qDiv.classList.add('incorrect-answer');
+                    const p = document.createElement('p');
+                    p.className = "text-sm text-green-600 mt-2 font-bold";
+                    p.innerHTML = `Correct Answer: ${String.fromCharCode(65 + item.ans)}) ${item.options[item.ans]}`;
+                    qDiv.appendChild(p);
+                }
+            });
+
+            scores.act4.score = correct;
+            scores.act4.done = true;
+            lockInputs('section-4');
+            const fb = document.getElementById('act4-feedback');
+            fb.textContent = `You got ${correct} out of 27 correct!`;
+            fb.classList.remove('hidden');
+            fb.classList.add(correct > 18 ? 'text-green-600' : 'text-orange-500');
+        }
+
+        function checkActivity5() {
+            let correct = 0;
+            const selects = document.querySelectorAll('.act5-select');
+            selects.forEach(select => {
+                if (select.value === select.dataset.answer) {
+                    correct++;
+                    select.classList.add('correct-answer');
+                } else {
+                    select.classList.add('incorrect-answer');
+                }
+            });
+            scores.act5.score = correct;
+            scores.act5.done = true;
+            lockInputs('section-5');
+            const fb = document.getElementById('act5-feedback');
+            fb.textContent = `You got ${correct} out of 8 correct!`;
+            fb.classList.remove('hidden');
+            fb.classList.add(correct > 5 ? 'text-green-600' : 'text-orange-500');
+        }
+
+        function checkActivity6() {
+            let correct = 0;
+            const selects = document.querySelectorAll('.act6-select');
+            selects.forEach(select => {
+                if (select.value === select.dataset.answer) {
+                    correct++;
+                    select.classList.add('correct-answer');
+                } else {
+                    select.classList.add('incorrect-answer');
+                }
+            });
+            scores.act6.score = correct;
+            scores.act6.done = true;
+            lockInputs('section-6');
+            const fb = document.getElementById('act6-feedback');
+            fb.textContent = `You got ${correct} out of 8 correct!`;
+            fb.classList.remove('hidden');
+            fb.classList.add(correct > 5 ? 'text-green-600' : 'text-orange-500');
+        }
+
+        function navigate(dir) {
+            document.getElementById(`section-${currentStep}`).classList.add('hidden');
+            currentStep += dir;
+            if (currentStep < 0) currentStep = 0;
+            if (currentStep > totalSteps) currentStep = totalSteps;
+            
+            document.getElementById(`section-${currentStep}`).classList.remove('hidden');
+            updateNav();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateNav() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            
+            document.getElementById('btn-prev').classList.toggle('hidden', currentStep === 0 || currentStep === totalSteps);
+            document.getElementById('btn-next').classList.toggle('hidden', currentStep >= totalSteps - 1);
+            document.getElementById('btn-submit').classList.toggle('hidden', currentStep !== totalSteps - 1);
+            
+            // Allow submit anyway button on header if not at end? We placed it at the end of nav.
+            // When on Act 7 (Final Image), show 'Check Results' instead of 'Next'
+        }
+
+        function submitWorksheet() {
+            const name = document.getElementById('student-name').value || 'Student';
+            const date = document.getElementById('student-date').value || new Date().toLocaleDateString();
+            
+            document.getElementById('results-student-info').innerHTML = `<strong>Name:</strong> ${name} | <strong>Date:</strong> ${date}`;
+            
+            navigate(1); // Go to results section
+            generateResults();
+        }
+
+        function generateResults() {
+            let totalScore = 0;
+            let totalMax = 0;
+            const labels = ['Act 2 (Conv)', 'Act 3 (Sentences)', 'Act 4 (Cloze+MCQ)', 'Act 5 (Vocab 1)', 'Act 6 (Vocab 2)'];
+            const dataScores = [];
+            const dataMax = [];
+
+            // Ignore Act 1 and 7 in chart numerical data since they are subjective/visual
+            ['act2', 'act3', 'act4', 'act5', 'act6'].forEach(act => {
+                totalScore += scores[act].score;
+                totalMax += scores[act].max;
+                dataScores.push(scores[act].score);
+                dataMax.push(scores[act].max);
+            });
+
+            const overallPercentage = Math.round((totalScore / totalMax) * 100) || 0;
+            document.getElementById('overall-percentage').textContent = `${overallPercentage}%`;
+            document.getElementById('overall-percentage').className += overallPercentage >= 70 ? ' text-green-500' : ' text-orange-500';
+
+            // Recommendations logic
+            const recs = [];
+            // Rec 1: Listening / Comprehension (Act 4)
+            if (scores.act4.score / scores.act4.max < 0.6) recs.push("<strong>Listening & Reading:</strong> Practice listening to science texts while reading along to improve spelling and word recognition.");
+            else recs.push("<strong>Listening & Reading:</strong> Excellent comprehension! Try watching science documentaries without subtitles to challenge yourself.");
+            
+            // Rec 2: Conversation (Act 2)
+            if (scores.act2.score / scores.act2.max < 0.7) recs.push("<strong>Speaking & Logic:</strong> Review conversational structures. Practice role-playing dialogues to understand natural responses.");
+            else recs.push("<strong>Speaking & Logic:</strong> Great job following conversational flow. Try initiating your own dialogues about scientific topics.");
+            
+            // Rec 3: Syntax (Act 3)
+            if (scores.act3.score / scores.act3.max < 0.7) recs.push("<strong>Grammar & Syntax:</strong> Focus on English sentence structure (Subject + Verb + Object). Write simple sentences before making them complex.");
+            else recs.push("<strong>Grammar & Syntax:</strong> Strong sentence formation skills! You correctly ordered complex scientific facts.");
+            
+            // Rec 4 & 5: Vocabulary (Act 5 & 6)
+            const vocabScore = (scores.act5.score + scores.act6.score) / (scores.act5.max + scores.act6.max);
+            if (vocabScore < 0.6) {
+                recs.push("<strong>Vocabulary:</strong> Create flashcards with symbols for atomic structure terminology (Proton, Neutron, Electron).");
+                recs.push("<strong>Vocabulary Application:</strong> Try to use 3 new science words in a sentence every day to build retention.");
+            } else {
+                recs.push("<strong>Vocabulary:</strong> Superb grasp of scientific terminology!");
+                recs.push("<strong>Vocabulary Application:</strong> Expand your vocabulary by reading articles about the Periodic Table.");
+            }
+
+            // General Recs to make exactly 8
+            recs.push("<strong>Study Habit:</strong> Use visual aids like the ones in this worksheet to connect images with English words.");
+            recs.push("<strong>Consistency:</strong> Review your notes from the introductory video to reinforce long-term memory.");
+            recs.push(`<strong>Overall Strategy:</strong> Focus on maintaining your ${overallPercentage}% accuracy by teaching these concepts to a classmate in English.`);
+
+            const recList = document.getElementById('recommendations-list');
+            recList.innerHTML = '';
+            recs.slice(0, 8).forEach((rec, i) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span class="font-bold text-brand-600 mr-2">${i+1}.</span> ${rec}`;
+                recList.appendChild(li);
+            });
+
+            // Render Charts
+            renderCharts(labels, dataScores, dataMax, overallPercentage);
+        }
+
+        function renderCharts(labels, scoresData, maxData, percentage) {
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#f3f4f6' : '#111827';
+            const gridColor = isDark ? '#374151' : '#e5e7eb';
+
+            Chart.defaults.color = textColor;
+            Chart.defaults.font.family = 'Inter';
+
+            // Bar Chart
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Your Score',
+                            data: scoresData,
+                            backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Max Score',
+                            data: maxData,
+                            backgroundColor: 'rgba(156, 163, 175, 0.4)',
+                            borderColor: 'rgba(156, 163, 175, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: gridColor } },
+                        x: { grid: { color: gridColor } }
+                    }
+                }
+            });
+
+            // Pie Chart
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            new Chart(pieCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Correct', 'Incorrect/Missed'],
+                    datasets: [{
+                        data: [percentage, 100 - percentage],
+                        backgroundColor: [
+                            percentage >= 70 ? 'rgba(16, 185, 129, 0.8)' : 'rgba(245, 158, 11, 0.8)',
+                            'rgba(239, 68, 68, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function initDarkTheme() {
+            const toggleBtn = document.getElementById('theme-toggle');
+            const icon = document.getElementById('theme-icon');
+            
+            // Check system preference or localStorage
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                document.documentElement.classList.remove('dark');
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                if (document.documentElement.classList.contains('dark')) {
+                    localStorage.theme = 'dark';
+                    icon.classList.replace('fa-moon', 'fa-sun');
+                } else {
+                    localStorage.theme = 'light';
+                    icon.classList.replace('fa-sun', 'fa-moon');
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
